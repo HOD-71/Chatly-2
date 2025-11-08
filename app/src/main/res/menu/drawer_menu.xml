@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+
+    <!-- آیتم‌های اصلی منو -->
+    <group android:id="@+id/group_main">
+        <item
+            android:id="@+id/nav_chats"
+            android:icon="@drawable/ic_message"
+            android:title="Chats" />
+        <item
+            android:id="@+id/nav_my_profile"
+            android:icon="@drawable/baseline_person_24"
+            android:title="My Profile" />
+        <item
+            android:id="@+id/nav_saved_messages"
+            android:icon="@drawable/ic_bookmark"
+            android:title="Saved Messages" />
+        <item
+            android:id="@+id/nav_contacts"
+            android:icon="@drawable/ic_people"
+            android:title="Contacts" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_setting"
+            android:title="Settings" />
+    </group>
+
+    <!-- جداکننده -->
+    <group android:id="@+id/group_divider">
+        <item android:title="" />
+    </group>
+
+    <!-- آیتم‌های پایین -->
+    <group android:id="@+id/group_footer">
+        <item
+            android:id="@+id/nav_telegram_features"
+            android:icon="@drawable/ic_info"
+            android:title="Telegram Features" />
+        <item
+            android:id="@+id/nav_report_bug"
+            android:icon="@drawable/ic_bug"
+            android:title="Report a Bug" />
+    </group>
+
+</menu>
