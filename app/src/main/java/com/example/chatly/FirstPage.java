@@ -72,14 +72,37 @@ public class FirstPage extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id == R.id.nav_settings) {
-                // تنظیمات
+
+            if (id == R.id.nav_chats) {
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new ChatsFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Chatly");
+
             } else if (id == R.id.nav_saved_messages) {
-                // Saved Messages
+                getSupportFragmentManager()
+                        .beginTransaction()
+                        .replace(R.id.container, new SavedMessagesFragment())
+                        .commit();
+                getSupportActionBar().setTitle("Saved Messages");
+
+            } else if (id == R.id.nav_settings) {
+                // بعداً تنظیمات رو اضافه کن
             }
-            drawer.closeDrawer(GravityCompat.START);
+
+            drawerLayout.closeDrawer(GravityCompat.START);
             return true;
         });
+    }
+    public void loadSavedMessages() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.container, new SavedMessagesFragment())
+                .commit();
+        if (getSupportActionBar() != null) {
+            getSupportActionBar().setTitle("Saved Messages");
+        }
     }
 
     @Override

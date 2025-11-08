@@ -1,4 +1,6 @@
 package com.example.chatly;
+
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,21 +9,24 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import java.util.List;
+import com.example.chatly.OnChatClickListener;
 
 public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder> {
 
-    private static final int VIEW_TYPE_SAVED = 0;
-    private static final int VIEW_TYPE_CHAT = 1;
+    private final Context context;
+    private final List<ChatItem> chatList;
+    private final OnChatClickListener listener;
 
-    private List<ChatItem> chatList;
-
-    public ChatAdapter(List<ChatItem> chatList) {
+    // سازنده با listener
+    public ChatAdapter(Context context, List<ChatItem> chatList, OnChatClickListener listener) {
+        this.context = context;
         this.chatList = chatList;
+        this.listener = listener;
     }
 
     @Override
     public int getItemViewType(int position) {
-        return chatList.get(position).isSavedMessages() ? VIEW_TYPE_SAVED : VIEW_TYPE_CHAT;
+        return chatList.get(position).isSavedMessages() ? 0 : 1;
     }
 
     @NonNull
@@ -35,7 +40,14 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
     @Override
     public void onBindViewHolder(@NonNull ChatViewHolder holder, int position) {
         ChatItem item = chatList.get(position);
-        holder.bind(item);
+        holder.bind(item); // فقط از bind استفاده کن
+
+        // کلیک فقط اینجا
+        holder.itemView.setOnClickListener(v -> {
+            if (listener != null) {
+                listener.onChatClick(item);
+            }
+        });
     }
 
     @Override
@@ -43,7 +55,7 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
         return chatList.size();
     }
 
-    // ViewHolder داخلی
+    // ViewHolder
     public static class ChatViewHolder extends RecyclerView.ViewHolder {
         ImageView imageAvatar, imageSavedIcon;
         TextView textTitle, textLastMessage, textTime;
@@ -62,26 +74,16 @@ public class ChatAdapter extends RecyclerView.Adapter<ChatAdapter.ChatViewHolder
             textTime.setText(item.getTime());
 
             if (item.isSavedMessages()) {
-                // حالت Saved Messages
                 imageAvatar.setVisibility(View.GONE);
                 imageSavedIcon.setVisibility(View.VISIBLE);
                 textLastMessage.setText(""); // یا "Saved Messages"
             } else {
-                // چت عادی
                 imageAvatar.setVisibility(View.VISIBLE);
                 imageSavedIcon.setVisibility(View.GONE);
                 textLastMessage.setText(item.getLastMessage() != null ? item.getLastMessage() : "");
             }
 
-            // کلیک روی آیتم (اختیاری)
-            itemView.setOnClickListener(v -> {
-                if (item.isSavedMessages()) {
-                    // برو به صفحه Saved Messages
-                    // مثلاً: v.getContext().startActivity(new Intent(v.getContext(), SavedMessagesActivity.class));
-                } else {
-                    // برو به چت عادی
-                }
-            });
+            // کلیک حذف شد — فقط در onBindViewHolder
         }
     }
 }
